@@ -1,0 +1,7 @@
+{
+  "name": "PushMarket",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Damian Mee <spam@meedamian.com>",
+  "license": "MIT"
+}
