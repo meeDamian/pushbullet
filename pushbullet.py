@@ -33,7 +33,7 @@ def get_currency_sign():
     elif CURRENCY == 'GBP':
         return '£'
 
-def notify_pushbullet(fee, txfee):
+def notify_pushbullet(fee, txfee, confirmed=True):
     earned = decimal.Decimal(fee - txfee)
     earned_btc = earned / decimal.Decimal(100000000)
 
@@ -43,10 +43,14 @@ def notify_pushbullet(fee, txfee):
     else:
         earned_str += 'BTC'
 
+    potentially = ''
+    if not confirmed:
+        potentially = ' (potentially)'
+
     data = {
         'channel_tag': CHANNEL,
         'type': 'note',
-        'title': '{0} earned!'.format(earned_str),
+        'title': '{0}{1} earned!'.format(earned_str, potentially),
         'body': 'Which is around {0}{1:.4f} as of now'.format(get_currency_sign(), float(earned_btc * get_price()))
     }
 
