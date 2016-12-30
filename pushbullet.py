@@ -33,7 +33,7 @@ def get_currency_sign():
     elif CURRENCY == 'GBP':
         return '£'
 
-def notify_pushbullet(fee, txfee, confirmed=True):
+def notify_pushbullet_earned(fee, txfee, confirmed=True):
     earned = decimal.Decimal(fee - txfee)
     earned_btc = earned / decimal.Decimal(100000000)
 
@@ -61,3 +61,28 @@ def notify_pushbullet(fee, txfee, confirmed=True):
 
     req = urllib2.Request('https://api.pushbullet.com/v2/pushes', json.dumps(data), headers)
     resp = urllib2.urlopen(req)
+
+def notify_pushbullet_balance(satoshi):
+    wallet_btc = satoshi / decimal.Decimal(100000000)
+
+    data = {
+        'channel_tag': CHANNEL,
+        'type': 'note',
+        'title': 'Wallet has {} BTC'.format(wallet_btc),
+        'body': 'Which is around {0}{1:.2f} as of now'.format(get_currency_sign(), float(wallet_btc * get_price()))
+    }
+
+    headers = {
+        'Content-Type': 'application/json',
+        'Access-Token': TOKEN
+    }
+
+    req = urllib2.Request('https://api.pushbullet.com/v2/pushes', json.dumps(data), headers)
+    resp = urllib2.urlopen(req)
+
+
+#
+# Don't use that one...
+#
+def notify_pushbullet(fee, txfee, confirmed=True):
+    notify_pushbullet_earned(fee, txfee, confirmed)
