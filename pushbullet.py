@@ -69,7 +69,7 @@ def notify_pushbullet_balance(satoshi):
         'channel_tag': CHANNEL,
         'type': 'note',
         'title': 'Wallet has {} BTC'.format(wallet_btc),
-        'body': 'Which is around {0}{1:.2f} as of now'.format(get_currency_sign(), float(wallet_btc * get_price()))
+        'body': 'Which is around {0}{1:.2f}'.format(get_currency_sign(), float(wallet_btc * get_price()))
     }
 
     headers = {
@@ -79,7 +79,6 @@ def notify_pushbullet_balance(satoshi):
 
     req = urllib2.Request('https://api.pushbullet.com/v2/pushes', json.dumps(data), headers)
     resp = urllib2.urlopen(req)
-
 
 #
 # Don't use that one...
